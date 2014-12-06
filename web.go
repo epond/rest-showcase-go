@@ -2,20 +2,25 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 )
 
 func main() {
 	log.Print("Starting...")
-	router := mux.NewRouter()
-	router.HandleFunc("/", HomeHandler)
-	http.Handle("/", router)
+	http.HandleFunc("/", HomeHandler)
+	http.HandleFunc("/basic", BasicHandler)
 
-	http.ListenAndServe("localhost:4000", nil)
+	http.ListenAndServe("localhost:9000", nil)
 }
 
 func HomeHandler(res http.ResponseWriter, req *http.Request) {
-	fmt.Fprintln(res, "This is home")
+	fmt.Fprintln(res, "POST to either /basic or /showcase. See project readme for more information.")
+}
+
+func BasicHandler(res http.ResponseWriter, req *http.Request) {
+	body, _ := ioutil.ReadAll(req.Body)
+	fmt.Fprintln(res, strings.ToUpper(string(body)))
 }

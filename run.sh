@@ -1,2 +1,2 @@
-./build.sh
-rest-showcase-go-gorilla
+./build.sh &&
+rest-showcase-go
