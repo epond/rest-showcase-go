@@ -9,11 +9,11 @@ import (
 
 func main() {
 	log.Print("Starting...")
-	r := mux.NewRouter()
-	r.HandleFunc("/", HomeHandler)
-	http.Handle("/", r)
+	router := mux.NewRouter()
+	router.HandleFunc("/", HomeHandler)
+	http.Handle("/", router)
 
-	http.ListenAndServe(":80", nil)
+	http.ListenAndServe("localhost:4000", nil)
 }
 
 func HomeHandler(res http.ResponseWriter, req *http.Request) {
