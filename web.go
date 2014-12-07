@@ -1,8 +1,10 @@
 package main
 
 import (
+	"crypto/md5"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -35,18 +37,20 @@ func ShowcaseHandler(res http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	log.Printf("Input: %s", dat["input"].(string))
+	input := dat["input"].(string)
 
-	md5Out := MD5Out{
-		"todo",
-		"todo",
-	}
+	hash := md5.New()
+	io.WriteString(hash, input)
+	md5 := strings.ToUpper(fmt.Sprintf("%x", hash.Sum(nil)))
+
+	md5Out := MD5Out{md5, input}
 
 	jsonOut, _ := json.Marshal(md5Out)
+
 	fmt.Fprint(res, string(jsonOut))
 }
 
 type MD5Out struct {
-	md5            string
-	originalString string
+	MD5            string `json:"md5"`
+	OriginalString string `json:"originalString"`
 }
