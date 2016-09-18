@@ -17,7 +17,7 @@ func main() {
 	http.HandleFunc("/basic", BasicHandler)
 	http.HandleFunc("/showcase", ShowcaseHandler)
 
-	http.ListenAndServe("localhost:9000", nil)
+	http.ListenAndServe(":9000", nil)
 }
 
 func HomeHandler(res http.ResponseWriter, req *http.Request) {
